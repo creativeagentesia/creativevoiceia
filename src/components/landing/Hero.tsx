@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Play, ArrowRight, Clock, CheckCircle2, Zap } from "lucide-react";
+import { Play, ArrowRight, Zap } from "lucide-react";
+import heroBg from "@/assets/hero-bg.jpg";
 
 const stats = [
   { value: "95%", label: "Precisão de Agendamento" },
@@ -11,17 +12,26 @@ const stats = [
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center hero-gradient overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroBg})` }}
+      >
+        {/* Dark purple gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[hsl(262,60%,15%)] via-[hsl(262,50%,20%)] to-[hsl(262,40%,25%)] opacity-90" />
+      </div>
+      
       {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-background/10 rounded-full blur-3xl animate-pulse-slow" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: "2s" }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-dark/20 rounded-full blur-[100px]" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] animate-pulse-slow" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/30 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: "2s" }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-violet-600/10 rounded-full blur-[150px]" />
       </div>
 
       {/* Grid Pattern Overlay */}
-      <div className="absolute inset-0 opacity-10" style={{
-        backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)`,
+      <div className="absolute inset-0 opacity-5" style={{
+        backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.4) 1px, transparent 0)`,
         backgroundSize: "40px 40px",
       }} />
 
@@ -32,9 +42,9 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-background/10 backdrop-blur-sm border border-background/20 text-background/90 text-sm mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/90 text-sm mb-8"
           >
-            <Zap className="w-4 h-4" />
+            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
             <span>Tecnologia de Voz com IA</span>
           </motion.div>
 
@@ -43,12 +53,11 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-background leading-tight mb-6"
+            className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6"
           >
             Transforme Conversas com Clientes com{" "}
-            <span className="relative">
-              <span className="relative z-10">Tecnologia de Voz IA</span>
-              <span className="absolute bottom-2 left-0 right-0 h-3 bg-background/20 -z-0 rounded" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-300 via-purple-300 to-pink-300">
+              Tecnologia de Voz IA
             </span>
           </motion.h1>
 
@@ -57,7 +66,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg sm:text-xl text-background/80 max-w-2xl mx-auto mb-10"
+            className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto mb-10"
           >
             IA de voz em tempo real que entende, responde e agenda compromissos 
             automaticamente com confirmações instantâneas por e-mail
@@ -93,12 +102,12 @@ const Hero = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                className="glass-card rounded-2xl p-4 lg:p-6"
+                className="bg-white/5 backdrop-blur-lg rounded-2xl p-4 lg:p-6 border border-white/10"
               >
-                <div className="text-2xl lg:text-3xl font-display font-bold gradient-text mb-1">
+                <div className="text-2xl lg:text-3xl font-display font-bold text-white mb-1">
                   {stat.value}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-sm text-white/60">
                   {stat.label}
                 </div>
               </motion.div>
