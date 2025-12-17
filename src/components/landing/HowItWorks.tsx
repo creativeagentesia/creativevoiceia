@@ -64,7 +64,7 @@ const HowItWorks = () => {
                 <div className="hidden lg:block absolute top-12 left-[60%] w-full h-0.5 bg-gradient-to-r from-primary/50 to-primary/10" />
               )}
 
-              <div className="relative bg-background rounded-2xl p-6 lg:p-8 shadow-card border border-border text-center group hover:shadow-lg transition-shadow duration-300">
+              <div className="relative bg-card rounded-2xl p-6 lg:p-8 shadow-card border border-border text-center group hover:shadow-lg transition-shadow duration-300">
                 {/* Number Badge */}
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full hero-gradient flex items-center justify-center text-primary-foreground font-bold text-sm">
                   {step.number}

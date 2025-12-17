@@ -65,7 +65,7 @@ const Sectors = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group bg-background rounded-2xl p-6 lg:p-8 shadow-card border border-border hover:shadow-lg transition-all duration-300"
+              className="group bg-card rounded-2xl p-6 lg:p-8 shadow-card border border-border hover:shadow-lg transition-all duration-300"
             >
               <div className="flex items-start gap-4 mb-6">
                 <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${sector.color} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
