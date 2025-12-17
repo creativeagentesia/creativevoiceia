@@ -83,9 +83,16 @@ const Hero = () => {
               Iniciar Teste Grátis
               <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
             </Button>
-            <Button variant="hero-outline" size="xl" className="group">
+            <Button 
+              variant="hero-outline" 
+              size="xl" 
+              className="group"
+              onClick={() => {
+                document.getElementById('video-demo')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
               <Play className="w-5 h-5" />
-              Assistir Demo
+              Assistir Vídeo
             </Button>
           </motion.div>
 
