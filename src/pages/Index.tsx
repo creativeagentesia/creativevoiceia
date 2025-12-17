@@ -5,6 +5,7 @@ import HowItWorks from "@/components/landing/HowItWorks";
 import Impact from "@/components/landing/Impact";
 import Sectors from "@/components/landing/Sectors";
 import Pricing from "@/components/landing/Pricing";
+import VideoTestimonials from "@/components/landing/VideoTestimonials";
 import Testimonials from "@/components/landing/Testimonials";
 import FAQ from "@/components/landing/FAQ";
 import CTA from "@/components/landing/CTA";
@@ -20,6 +21,7 @@ const Index = () => {
       <Impact />
       <Sectors />
       <Pricing />
+      <VideoTestimonials />
       <Testimonials />
       <FAQ />
       <CTA />

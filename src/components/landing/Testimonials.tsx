@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Star, Shield, Globe, Zap, CheckCircle } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 const testimonials = [
   {
@@ -17,11 +18,25 @@ const testimonials = [
     avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200",
   },
   {
-    quote: "As pontuações de satisfação do cliente aumentaram significativamente. A disponibilidade 24/7 significa que nunca perdemos um cliente potencial, mesmo fora do horário comercial.",
+    quote: "As pontuações de satisfação do cliente aumentaram significativamente. A disponibilidade 24/7 significa que nunca perdemos um cliente potencial.",
     author: "Emily Rodriguez",
     role: "Consultora Jurídica",
     company: "Rodriguez & Associados",
     avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200",
+  },
+  {
+    quote: "A integração foi incrivelmente simples. Em menos de uma semana já estávamos com o sistema totalmente operacional e nossos clientes adoraram.",
+    author: "Carlos Mendes",
+    role: "Diretor de Operações",
+    company: "TechVision Brasil",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
+  },
+  {
+    quote: "O suporte ao cliente é excepcional. Sempre que tivemos dúvidas, a equipe respondeu rapidamente e nos ajudou a otimizar nossos processos.",
+    author: "Ana Paula Silva",
+    role: "Gerente de Atendimento",
+    company: "Saúde Integral",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200",
   },
 ];
 
@@ -33,35 +48,57 @@ const badges = [
 ];
 
 const Testimonials = () => {
-  return (
-    <section className="py-20 lg:py-32 section-soft">
-      <div className="container px-4 lg:px-8">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto mb-16"
-        >
-          <h2 className="font-display text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-4">
-            Confiado por Líderes do Setor
-          </h2>
-          <p className="text-lg text-muted-foreground">
-            Veja o que nossos clientes dizem sobre sua experiência
-          </p>
-        </motion.div>
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
 
-        {/* Testimonials Grid */}
-        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 mb-12">
-          {testimonials.map((testimonial, index) => (
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer || testimonials.length <= 3) return;
+
+    let animationId: number;
+    let scrollPosition = 0;
+    const scrollSpeed = 0.5;
+
+    const animate = () => {
+      if (!isPaused && scrollContainer) {
+        scrollPosition += scrollSpeed;
+        
+        // Reset scroll when reaching the cloned section
+        if (scrollPosition >= scrollContainer.scrollWidth / 2) {
+          scrollPosition = 0;
+        }
+        
+        scrollContainer.scrollLeft = scrollPosition;
+      }
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animationId = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+    };
+  }, [isPaused]);
+
+  return (
+    <section className="py-20 lg:py-32 section-soft overflow-hidden">
+      <div className="container px-4 lg:px-8">
+        {/* Testimonials Carousel */}
+        <div 
+          ref={scrollRef}
+          className="flex gap-6 overflow-hidden pb-4"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Double testimonials for infinite scroll effect */}
+          {[...testimonials, ...testimonials].map((testimonial, index) => (
             <motion.div
-              key={testimonial.author}
+              key={`${testimonial.author}-${index}`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-background rounded-2xl p-6 lg:p-8 shadow-card border border-border"
+              transition={{ duration: 0.5, delay: Math.min(index * 0.1, 0.3) }}
+              className="bg-background rounded-2xl p-6 lg:p-8 shadow-card border border-border flex-shrink-0 w-[350px] lg:w-[400px]"
             >
               {/* Stars */}
               <div className="flex gap-1 mb-4">
@@ -71,7 +108,7 @@ const Testimonials = () => {
               </div>
 
               {/* Quote */}
-              <blockquote className="text-foreground/90 mb-6 leading-relaxed">
+              <blockquote className="text-foreground/90 mb-6 leading-relaxed text-sm lg:text-base">
                 "{testimonial.quote}"
               </blockquote>
 
@@ -104,7 +141,7 @@ const Testimonials = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-wrap justify-center gap-4 lg:gap-6"
+          className="flex flex-wrap justify-center gap-4 lg:gap-6 mt-12"
         >
           {badges.map((badge) => (
             <div
