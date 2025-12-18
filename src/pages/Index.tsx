@@ -16,29 +16,19 @@ import { useEffect } from "react";
 
 const Index = () => {
   useEffect(() => {
-    // BotPenguin chatbot integration
-    const existingScript = document.getElementById("botpenguin-script");
-    if (!existingScript) {
+    // BotPenguin chatbot - using exact script from user
+    const existingBotScript = document.getElementById("messenger-widget-b");
+    if (!existingBotScript) {
       const script = document.createElement("script");
-      script.id = "botpenguin-script";
-      script.innerHTML = `
-        window.BotPenguinConfig = {
-          botId: "67f56c6e7670c84c1abdf696"
-        };
-        (function() {
-          var bp = document.createElement("script");
-          bp.type = "text/javascript";
-          bp.async = true;
-          bp.src = "https://cdn.botpenguin.com/website-bot.js?botId=67f56c6e7670c84c1abdf696";
-          var s = document.getElementsByTagName("script")[0];
-          s.parentNode.insertBefore(bp, s);
-        })();
-      `;
+      script.id = "messenger-widget-b";
+      script.src = "https://cdn.botpenguin.com/website-bot.js";
+      script.defer = true;
+      script.textContent = "69434a7bbdb6af04d6637bc0,69433bdd43ae703cb75f6f6b";
       document.body.appendChild(script);
     }
 
     return () => {
-      // Cleanup is optional since BotPenguin manages its own lifecycle
+      // Cleanup on unmount
     };
   }, []);
 

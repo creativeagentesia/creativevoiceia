@@ -30,7 +30,10 @@ const CTA = () => {
 
           {/* Pulsating CTA Button */}
           <motion.button
-            onClick={openCalPopup}
+            onClick={() => {
+              console.log('CTA button clicked');
+              openCalPopup();
+            }}
             className="relative inline-flex items-center justify-center gap-3 px-8 py-5 text-lg font-semibold text-white rounded-xl bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
