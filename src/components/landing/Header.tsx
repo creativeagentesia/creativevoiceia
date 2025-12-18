@@ -3,10 +3,8 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Mic, Calendar } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { useCalEmbed } from "@/hooks/useCalEmbed";
 
 const Header = () => {
-  const { openCalPopup } = useCalEmbed();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -78,7 +76,12 @@ const Header = () => {
             <Button
               variant={isScrolled ? "default" : "hero"}
               size="sm"
-              onClick={openCalPopup}
+              onClick={() => {
+                const ctaSection = document.getElementById('cta-agendamento');
+                if (ctaSection) {
+                  ctaSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
             >
               <Calendar className="w-4 h-4 mr-1" />
               Agende Sua Apresentação
@@ -120,7 +123,19 @@ const Header = () => {
                 <Button variant="outline" className="w-full">
                   Login
                 </Button>
-                <Button variant="default" className="w-full" onClick={openCalPopup}>
+                <Button 
+                  variant="default" 
+                  className="w-full" 
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setTimeout(() => {
+                      const ctaSection = document.getElementById('cta-agendamento');
+                      if (ctaSection) {
+                        ctaSection.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }, 100);
+                  }}
+                >
                   <Calendar className="w-4 h-4 mr-1" />
                   Agende Sua Apresentação
                 </Button>

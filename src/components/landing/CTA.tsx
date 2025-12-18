@@ -6,7 +6,7 @@ const CTA = () => {
   const { openCalPopup } = useCalEmbed();
 
   return (
-    <section className="py-20 lg:py-32 hero-gradient relative overflow-hidden">
+    <section id="cta-agendamento" className="py-20 lg:py-32 hero-gradient relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-background/10 rounded-full blur-3xl" />
