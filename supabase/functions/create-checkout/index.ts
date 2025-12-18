@@ -30,6 +30,7 @@ serve(async (req) => {
     const origin = req.headers.get("origin") || "https://pldjgrmdfynbayinjjuh.lovableproject.com";
 
     const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
       line_items: [
         {
           price: PRICES[planName as keyof typeof PRICES],
