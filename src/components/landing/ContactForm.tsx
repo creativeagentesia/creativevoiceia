@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Send, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const ContactForm = () => {
   const { toast } = useToast();
@@ -28,19 +29,21 @@ const ContactForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // For now, we'll show a success message
-    // Email sending requires backend integration (Supabase Edge Function + Resend)
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+        body: formData,
+      });
+
+      if (error) throw error;
+
       toast({
         title: "Mensagem enviada!",
         description: "Entraremos em contato em breve.",
       });
       
       setFormData({ name: "", email: "", whatsapp: "", message: "" });
-    } catch {
+    } catch (error: any) {
+      console.error("Error sending email:", error);
       toast({
         title: "Erro ao enviar",
         description: "Tente novamente mais tarde.",
