@@ -2,50 +2,56 @@ import { useEffect, useCallback } from 'react';
 
 declare global {
   interface Window {
-    Cal?: {
-      (action: string, ...args: unknown[]): void;
-      ns?: Record<string, (...args: unknown[]) => void>;
-      q?: unknown[];
-      loaded?: boolean;
-    };
+    Cal?: any;
   }
 }
 
 export const useCalEmbed = () => {
   useEffect(() => {
-    // Load Cal.com embed script only once
-    if (typeof window !== 'undefined' && !document.getElementById('cal-embed-script')) {
-      // Initialize Cal queue
-      window.Cal = window.Cal || function(...args: unknown[]) {
-        (window.Cal!.q = window.Cal!.q || []).push(args);
-      };
+    if (typeof window !== 'undefined' && !window.Cal?.loaded) {
+      // Cal.com official embed snippet
+      (function (C: any, A: string, L: string) {
+        const p = function (a: any, ar?: any) { a.q.push(ar); };
+        const d = C.document;
+        C.Cal = C.Cal || function () {
+          const cal = C.Cal;
+          const ar = arguments;
+          if (!cal.loaded) {
+            cal.ns = {};
+            cal.q = cal.q || [];
+            const script = d.createElement("script");
+            script.src = A;
+            d.head.appendChild(script);
+            cal.loaded = true;
+          }
+          if (ar[0] === L) {
+            const api: any = function () { p(api, arguments); };
+            const namespace = ar[1];
+            api.q = api.q || [];
+            if (typeof namespace === "string") {
+              cal.ns[namespace] = cal.ns[namespace] || api;
+              p(cal.ns[namespace], ar);
+              p(cal, ["initNamespace", namespace]);
+            } else p(cal, ar);
+            return;
+          }
+          p(cal, ar);
+        };
+      })(window, "https://app.cal.com/embed/embed.js", "init");
 
-      const script = document.createElement('script');
-      script.id = 'cal-embed-script';
-      script.src = 'https://app.cal.com/embed/embed.js';
-      script.async = true;
-      document.head.appendChild(script);
-
-      script.onload = () => {
-        console.log('Cal.com script loaded');
-        if (window.Cal) {
-          window.Cal('init', { origin: 'https://cal.com' });
-        }
-      };
+      window.Cal("init", "creativevoiceia", { origin: "https://cal.com" });
     }
   }, []);
 
   const openCalPopup = useCallback(() => {
     console.log('Opening Cal popup...');
-    if (window.Cal) {
-      window.Cal('modal', {
-        calLink: 'creativeia-agentes-t6ryln/creativevoiceia',
-        config: {
-          layout: 'month_view',
-        }
+    if (window.Cal?.ns?.creativevoiceia) {
+      window.Cal.ns.creativevoiceia("modal", {
+        calLink: "creativeia-agentes-t6ryln/creativevoiceia",
+        config: { layout: "month_view" }
       });
     } else {
-      // Fallback: open in new tab
+      console.log('Cal not ready, opening in new tab');
       window.open('https://cal.com/creativeia-agentes-t6ryln/creativevoiceia', '_blank');
     }
   }, []);
