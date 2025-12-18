@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Play, ArrowRight, Zap } from "lucide-react";
+import { Play, Calendar } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
+import { useCalEmbed } from "@/hooks/useCalEmbed";
 
 const stats = [
   { value: "95%", label: "Precisão de Agendamento" },
@@ -9,8 +10,8 @@ const stats = [
   { value: "60%", label: "Redução de Custos" },
   { value: "<2s", label: "Tempo de Resposta" },
 ];
-
 const Hero = () => {
+  const { openCalPopup } = useCalEmbed();
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
@@ -79,9 +80,9 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
           >
-            <Button variant="hero" size="xl" className="group">
-              Iniciar Teste Grátis
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            <Button variant="hero" size="xl" className="group" onClick={openCalPopup}>
+              <Calendar className="w-5 h-5" />
+              Agende Sua Apresentação
             </Button>
             <Button 
               variant="hero-outline" 

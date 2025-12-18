@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, MessageCircle, Brain, Calendar, Mail } from "lucide-react";
+import { MessageCircle, Brain, Calendar, Mail } from "lucide-react";
+import { useCalEmbed } from "@/hooks/useCalEmbed";
 
 const features = [
   { icon: MessageCircle, label: "Linguagem Natural" },
@@ -10,6 +11,8 @@ const features = [
 ];
 
 const VideoDemo = () => {
+  const { openCalPopup } = useCalEmbed();
+  
   return (
     <section id="video-demo" className="py-20 bg-background">
       <div className="container px-4 lg:px-8">
@@ -75,11 +78,11 @@ const VideoDemo = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button variant="hero" size="lg" className="group">
-                Iniciar Teste Grátis
-                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              <Button variant="hero" size="lg" className="group" onClick={openCalPopup}>
+                <Calendar className="w-5 h-5" />
+                Agende Sua Apresentação
               </Button>
-              <Button variant="outline" size="lg">
+              <Button variant="outline" size="lg" onClick={openCalPopup}>
                 Falar com Especialista
               </Button>
             </div>
