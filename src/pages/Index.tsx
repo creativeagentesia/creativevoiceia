@@ -1,6 +1,7 @@
 import Header from "@/components/landing/Header";
 import Hero from "@/components/landing/Hero";
 import VideoDemo from "@/components/landing/VideoDemo";
+import BrandScroller from "@/components/landing/BrandScroller";
 import Features from "@/components/landing/Features";
 import HowItWorks from "@/components/landing/HowItWorks";
 import Impact from "@/components/landing/Impact";
@@ -37,6 +38,7 @@ const Index = () => {
       <Header />
       <Hero />
       <VideoDemo />
+      <BrandScroller />
       <Features />
       <HowItWorks />
       <Impact />
