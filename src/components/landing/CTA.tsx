@@ -1,14 +1,10 @@
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, CreditCard, Clock, X } from "lucide-react";
-
-const benefits = [
-  { icon: CreditCard, text: "Sem cartão de crédito" },
-  { icon: Clock, text: "Configuração em 5 minutos" },
-  { icon: X, text: "Cancele a qualquer momento" },
-];
+import { Calendar } from "lucide-react";
+import { useCalEmbed } from "@/hooks/useCalEmbed";
 
 const CTA = () => {
+  const { openCalPopup } = useCalEmbed();
+
   return (
     <section className="py-20 lg:py-32 hero-gradient relative overflow-hidden">
       {/* Background Effects */}
@@ -32,29 +28,20 @@ const CTA = () => {
             Junte-se a milhares de empresas que já usam IA para transformar seu atendimento ao cliente
           </p>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-            <Button variant="hero" size="xl" className="group">
-              Iniciar Seu Teste Grátis
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </Button>
-            <Button variant="hero-outline" size="xl">
-              Agendar uma Demo
-            </Button>
-          </div>
-
-          {/* Benefits */}
-          <div className="flex flex-wrap items-center justify-center gap-6">
-            {benefits.map((benefit) => (
-              <div
-                key={benefit.text}
-                className="flex items-center gap-2 text-background/80"
-              >
-                <benefit.icon className="w-4 h-4" />
-                <span className="text-sm">{benefit.text}</span>
-              </div>
-            ))}
-          </div>
+          {/* Pulsating CTA Button */}
+          <motion.button
+            onClick={openCalPopup}
+            className="relative inline-flex items-center justify-center gap-3 px-8 py-5 text-lg font-semibold text-white rounded-xl bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            {/* Pulsating glow effect */}
+            <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 animate-pulse-glow opacity-50" />
+            <span className="relative flex items-center gap-3">
+              <Calendar className="w-6 h-6" />
+              Agendar Apresentação Agora
+            </span>
+          </motion.button>
         </motion.div>
       </div>
     </section>
