@@ -1,13 +1,18 @@
 import { motion } from "framer-motion";
 import { Check, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { useState } from "react";
+import { toast } from "@/hooks/use-toast";
 
 const plans = [
   {
     name: "Inicial",
     description: "Perfeito para pequenas empresas começando",
-    price: "$99",
+    price: "R$199",
     period: "/mês",
+    priceId: "price_1SflND2OaCznY7dQgxnluf3s",
+    planKey: "inicial",
     features: [
       "500 minutos de voz/mês",
       "100 agendamentos/mês",
@@ -16,14 +21,17 @@ const plans = [
       "Suporte por e-mail",
       "2 integrações",
     ],
-    cta: "Começar",
+    cta: "Contrate Agora",
     popular: false,
+    isCheckout: true,
   },
   {
     name: "Profissional",
     description: "Ideal para empresas em crescimento",
-    price: "$299",
+    price: "R$399",
     period: "/mês",
+    priceId: "price_1SflNR2OaCznY7dQrbLHUleh",
+    planKey: "profissional",
     features: [
       "2.000 minutos de voz/mês",
       "Agendamentos ilimitados",
@@ -34,14 +42,17 @@ const plans = [
       "Modelos personalizados",
       "Acesso à API",
     ],
-    cta: "Iniciar Teste Grátis",
+    cta: "Contrate Agora",
     popular: true,
+    isCheckout: true,
   },
   {
     name: "Empresarial",
     description: "Para grandes organizações com necessidades específicas",
     price: "Personalizado",
     period: "",
+    priceId: null,
+    planKey: "empresarial",
     features: [
       "Minutos de voz ilimitados",
       "Agendamentos ilimitados",
@@ -55,10 +66,44 @@ const plans = [
     ],
     cta: "Contatar Vendas",
     popular: false,
+    isCheckout: false,
   },
 ];
 
 const Pricing = () => {
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  const handleCheckout = async (planKey: string, priceId: string) => {
+    setLoadingPlan(planKey);
+    try {
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { priceId, planName: planKey },
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (error: any) {
+      console.error("Checkout error:", error);
+      toast({
+        title: "Erro ao iniciar checkout",
+        description: "Tente novamente mais tarde.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoadingPlan(null);
+    }
+  };
+
+  const scrollToContact = () => {
+    const contactSection = document.getElementById('contato');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="precos" className="py-20 lg:py-32 bg-background">
       <div className="container px-4 lg:px-8">
@@ -138,8 +183,16 @@ const Pricing = () => {
                 variant={plan.popular ? "gradient" : "outline"}
                 size="lg"
                 className="w-full"
+                disabled={loadingPlan === plan.planKey}
+                onClick={() => {
+                  if (plan.isCheckout && plan.priceId) {
+                    handleCheckout(plan.planKey, plan.priceId);
+                  } else {
+                    scrollToContact();
+                  }
+                }}
               >
-                {plan.cta}
+                {loadingPlan === plan.planKey ? "Carregando..." : plan.cta}
               </Button>
             </motion.div>
           ))}
