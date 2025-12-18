@@ -30,9 +30,15 @@ const ContactForm = () => {
     setIsSubmitting(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke('send-contact-email', {
-        body: formData,
-      });
+      // Save to database
+      const { error } = await supabase
+        .from('contact_submissions')
+        .insert({
+          name: formData.name,
+          email: formData.email,
+          whatsapp: formData.whatsapp,
+          message: formData.message,
+        });
 
       if (error) throw error;
 
@@ -43,7 +49,7 @@ const ContactForm = () => {
       
       setFormData({ name: "", email: "", whatsapp: "", message: "" });
     } catch (error: any) {
-      console.error("Error sending email:", error);
+      console.error("Error saving contact:", error);
       toast({
         title: "Erro ao enviar",
         description: "Tente novamente mais tarde.",
