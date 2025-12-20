@@ -41,15 +41,238 @@ export type Database = {
         }
         Relationships: []
       }
+      navigation_items: {
+        Row: {
+          created_at: string | null
+          href: string
+          id: string
+          is_visible: boolean | null
+          label: string
+          parent_id: string | null
+          sort_order: number
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          href: string
+          id?: string
+          is_visible?: boolean | null
+          label: string
+          parent_id?: string | null
+          sort_order: number
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          href?: string
+          id?: string
+          is_visible?: boolean | null
+          label?: string
+          parent_id?: string | null
+          sort_order?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "navigation_items_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "navigation_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          email: string
+          full_name: string | null
+          id: string
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email: string
+          full_name?: string | null
+          id: string
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      section_content: {
+        Row: {
+          content_key: string
+          content_type: string
+          content_value: Json
+          created_at: string | null
+          id: string
+          section_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          content_key: string
+          content_type: string
+          content_value: Json
+          created_at?: string | null
+          id?: string
+          section_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          content_key?: string
+          content_type?: string
+          content_value?: Json
+          created_at?: string | null
+          id?: string
+          section_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "section_content_section_id_fkey"
+            columns: ["section_id"]
+            isOneToOne: false
+            referencedRelation: "website_sections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      video_content: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          duration: string | null
+          id: string
+          is_visible: boolean | null
+          section_id: string | null
+          sort_order: number | null
+          thumbnail_url: string | null
+          title: string | null
+          updated_at: string | null
+          view_count: number | null
+          youtube_url: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          duration?: string | null
+          id?: string
+          is_visible?: boolean | null
+          section_id?: string | null
+          sort_order?: number | null
+          thumbnail_url?: string | null
+          title?: string | null
+          updated_at?: string | null
+          view_count?: number | null
+          youtube_url: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          duration?: string | null
+          id?: string
+          is_visible?: boolean | null
+          section_id?: string | null
+          sort_order?: number | null
+          thumbnail_url?: string | null
+          title?: string | null
+          updated_at?: string | null
+          view_count?: number | null
+          youtube_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "video_content_section_id_fkey"
+            columns: ["section_id"]
+            isOneToOne: false
+            referencedRelation: "website_sections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      website_sections: {
+        Row: {
+          can_be_deleted: boolean | null
+          component_name: string
+          created_at: string | null
+          display_name: string
+          id: string
+          is_visible: boolean | null
+          name: string
+          sort_order: number
+          updated_at: string | null
+        }
+        Insert: {
+          can_be_deleted?: boolean | null
+          component_name: string
+          created_at?: string | null
+          display_name: string
+          id?: string
+          is_visible?: boolean | null
+          name: string
+          sort_order: number
+          updated_at?: string | null
+        }
+        Update: {
+          can_be_deleted?: boolean | null
+          component_name?: string
+          created_at?: string | null
+          display_name?: string
+          id?: string
+          is_visible?: boolean | null
+          name?: string
+          sort_order?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_admin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "super_admin" | "common_user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -176,6 +399,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["super_admin", "common_user"],
+    },
   },
 } as const
