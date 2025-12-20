@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Mic, Calendar } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -70,8 +71,9 @@ const Header = () => {
             <Button
               variant={isScrolled ? "ghost" : "hero-outline"}
               size="sm"
+              asChild
             >
-              Login
+              <Link to="/auth">Login</Link>
             </Button>
             <Button
               variant={isScrolled ? "default" : "hero"}
@@ -120,8 +122,8 @@ const Header = () => {
                 </a>
               ))}
               <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border">
-                <Button variant="outline" className="w-full">
-                  Login
+                <Button variant="outline" className="w-full" asChild>
+                  <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
                 </Button>
                 <Button 
                   variant="default" 
